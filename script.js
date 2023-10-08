@@ -45,8 +45,25 @@ const getCurrent = async (location) => {
     icon: currentWeather.condition.icon,
     uv: currentWeather.uv,
   };
-  console.log(currentGeneral);
+  console.log(mainWeatherObj);
   return currentGeneral;
+};
+
+// uses getData function to fetch weather info for the next 2 days
+const getFuture = async (location, day) => {
+  const mainWeatherObj = await getData(location);
+  const currentDay = mainWeatherObj.forecast.forecastday[day];
+  const futureWeather = {
+    date: currentDay.date,
+    tempMax: currentDay.day.maxtemp_c,
+    tempMin: currentDay.day.mintemp_c,
+    icon: currentDay.day.condition.icon,
+    rain: currentDay.day.totalprecip_mm,
+    rainChance: currentDay.day.daily_chance_of_rain,
+    wind: Math.round(currentDay.day.maxwind_kph * 0.28) + "m/s",
+  };
+  console.log(futureWeather);
+  return futureWeather;
 };
 
 // target weather info card DOM elements to use with following function
@@ -63,7 +80,7 @@ const uv = document.querySelector(".uv");
 
 // function that populates weather info with the details provided
 // by the response of the API call after the user runs the search
-const populateInfo = (weatherObj) => {
+const populateCurrent = (weatherObj) => {
   weatherLocation.textContent = `${weatherObj.location} (${weatherObj.region}), ${weatherObj.country}`;
   weatherDate.textContent = new Date().toUTCString();
   weatherTemp.textContent = weatherObj.temp;
@@ -76,20 +93,61 @@ const populateInfo = (weatherObj) => {
   uv.textContent = `UV: ${weatherObj.uv}`;
 };
 
+// target tomorrow weather info's DOM elements
+const tomorrowDate = document.querySelector(".tomorrow-date");
+const tomorrowTempMax = document.querySelector(".tomorrow-temp-max");
+const tomorrowTempMin = document.querySelector(".tomorrow-temp-min");
+const tomorrowIcon = document.querySelector(".tomorrow-icon");
+const tomorrowRain = document.querySelector(".tomorrow-rain");
+const tomorrowWindSpeed = document.querySelector(".tomorrow-wind-speed");
+// populates tomorrow's card
+const populateTomorrow = (weatherObj) => {
+  tomorrowDate.textContent = weatherObj.date;
+  tomorrowTempMax.textContent = `Max t°: ${weatherObj.tempMax}°C`;
+  tomorrowTempMin.textContent = `Min t°: ${weatherObj.tempMin}°C`;
+  tomorrowIcon.src = "https:" + weatherObj.icon;
+  tomorrowRain.textContent = `Rain: ${weatherObj.rain}mm (${weatherObj.rainChance}%)`;
+  tomorrowWindSpeed.textContent = `Wind: ${weatherObj.wind}`;
+};
+
+// target vdrugiden weather info's DOM elements
+const vdrugidenDate = document.querySelector(".vdrugiden-date");
+const vdrugidenTempMax = document.querySelector(".vdrugiden-temp-max");
+const vdrugidenTempMin = document.querySelector(".vdrugiden-temp-min");
+const vdrugidenIcon = document.querySelector(".vdrugiden-icon");
+const vdrugidenRain = document.querySelector(".vdrugiden-rain");
+const vdrugidenWindSpeed = document.querySelector(".vdrugiden-wind-speed");
+// populates vdrugiden's card
+const populateVdrugiden = (weatherObj) => {
+  vdrugidenDate.textContent = weatherObj.date;
+  vdrugidenTempMax.textContent = `Max t°: ${weatherObj.tempMax}°C`;
+  vdrugidenTempMin.textContent = `Min t°: ${weatherObj.tempMin}°C`;
+  vdrugidenIcon.src = "https:" + weatherObj.icon;
+  vdrugidenRain.textContent = `Rain: ${weatherObj.rain}mm (${weatherObj.rainChance}%)`;
+  vdrugidenWindSpeed.textContent = `Wind: ${weatherObj.wind}`;
+};
+
 // target search button and search input
 const searchButton = document.querySelector(".search button");
 const searchInput = document.querySelector(".search input");
-searchInput.focus();
-// target weather info card
+// target weather info cards
 const weatherCard = document.querySelector(".weather-card");
+const tomorrowCard = document.querySelector(".tomorrow-card");
+const vdrugidenCard = document.querySelector(".vdrugiden-card");
 
 // get weather data when search button is clicked, for the location
 // that's in the input
 searchButton.addEventListener("click", async () => {
   const location = searchInput.value;
   const weatherInfo = await getCurrent(location);
+  const tomorrow = await getFuture(location, 1);
+  const vdrugiden = await getFuture(location, 2);
   weatherCard.style.display = "grid";
-  populateInfo(weatherInfo);
+  tomorrowCard.style.display = "grid";
+  vdrugidenCard.style.display = "grid";
+  populateCurrent(weatherInfo);
+  populateTomorrow(tomorrow);
+  populateVdrugiden(vdrugiden);
   searchInput.value = "";
 });
 
@@ -99,14 +157,19 @@ searchInput.addEventListener("keydown", async (e) => {
     e.preventDefault();
     const location = searchInput.value;
     const weatherInfo = await getCurrent(location);
+    const tomorrow = await getFuture(location, 1);
+    const vdrugiden = await getFuture(location, 2);
     weatherCard.style.display = "grid";
-    populateInfo(weatherInfo);
+    tomorrowCard.style.display = "grid";
+    vdrugidenCard.style.display = "grid";
+    populateCurrent(weatherInfo);
+    populateTomorrow(tomorrow);
+    populateVdrugiden(vdrugiden);
     searchInput.value = "";
   }
 });
 
-/// set up background image depending on weather, list of weather conditions:
-// https://www.weatherapi.com/docs/weather_conditions.json
+searchInput.focus();
 
 //////// set up functions to get forecast for upcoming days
 
