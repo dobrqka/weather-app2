@@ -6,8 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow:wght@200&family=Dancing+Script:wght@500&family=Dosis&family=Jost&family=Lobster&family=Montserrat&family=Mooli&family=Nunito+Sans:opsz@6..12&family=Nunito:wght@300&family=Roboto:wght@300&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
+    <header>
+      <h1>Nice weather we're having</h1>
+    </header>
+    <form class="search">
+      <input type="search" placeholder="Search for a location..." />
+      <button type="button"><img src="./images/search.png" /></button>
+    </form>
+    <div class="weather-info">
+      <div class="weather-card">
+        <h1 class="location"></h1>
+        <h2 class="date"></h2>
+        <div class="temp"></div>
+        <div class="general-info">
+          <div class="general"></div>
+          <div><img class="icon" /></div>
+        </div>
+        <div class="feel"></div>
+        <div class="rain"></div>
+        <div class="wind">
+          Wind:
+          <div><img class="wind-dir" /></div>
+          <div class="wind-speed"></div>
+        </div>
+      </div>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>
