@@ -43,6 +43,7 @@ const getCurrent = async (location) => {
     rainChance: mainWeatherObj.forecast.forecastday[0].day.daily_chance_of_rain,
     general: currentWeather.condition.text,
     icon: currentWeather.condition.icon,
+    uv: currentWeather.uv,
   };
   console.log(currentGeneral);
   return currentGeneral;
@@ -58,6 +59,7 @@ const weatherFeel = document.querySelector(".feel");
 const weatherRain = document.querySelector(".rain");
 const weatherWindSpeed = document.querySelector(".wind-speed");
 const weatherWindDirection = document.querySelector(".wind-dir");
+const uv = document.querySelector(".uv");
 
 // function that populates weather info with the details provided
 // by the response of the API call after the user runs the search
@@ -71,6 +73,7 @@ const populateInfo = (weatherObj) => {
   weatherRain.textContent = `Rain: ${weatherObj.rain} (${weatherObj.rainChance}%)`;
   weatherWindDirection.src = `./images/${weatherObj.windDir}.png`;
   weatherWindSpeed.textContent = weatherObj.wind;
+  uv.textContent = `UV: ${weatherObj.uv}`;
 };
 
 // target search button and search input
@@ -85,6 +88,7 @@ const weatherCard = document.querySelector(".weather-card");
 searchButton.addEventListener("click", async () => {
   const location = searchInput.value;
   const weatherInfo = await getCurrent(location);
+  weatherCard.style.display = "grid";
   populateInfo(weatherInfo);
   searchInput.value = "";
 });
@@ -95,6 +99,7 @@ searchInput.addEventListener("keydown", async (e) => {
     e.preventDefault();
     const location = searchInput.value;
     const weatherInfo = await getCurrent(location);
+    weatherCard.style.display = "grid";
     populateInfo(weatherInfo);
     searchInput.value = "";
   }

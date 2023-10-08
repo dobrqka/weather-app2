@@ -65,7 +65,7 @@ input::placeholder {
   grid-template-columns: 1fr 1fr;
   align-items: center;
   padding-left: 1rem;
-  /* display: none; */
+  display: none;
 }
 
 .location {
@@ -82,16 +82,28 @@ input::placeholder {
   display: flex;
   gap: 1rem;
   align-items: center;
-  justify-self: end;
+  grid-column: 4;
+}
+
+.rain-main,
+.uv-main,
+.general-main {
+  justify-self: stretch;
+  margin-right: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .rain {
-  justify-self: end;
-  margin-right: 1rem;
+  grid-column: 4;
 }
 
 .wind {
   display: flex;
   gap: 1rem;
   align-items: center;
+}
+
+.uv {
+  grid-column: 4;
 }
