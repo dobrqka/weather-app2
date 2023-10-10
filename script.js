@@ -173,10 +173,47 @@ searchInput.addEventListener("keydown", async (e) => {
   }
 });
 
+/// target autocomplete dropdown DOM element
+const autoCompleteMenu = document.querySelector(".autocomplete");
+
+/// autocomplete function that shows suggestions based on current input
+const autoComplete = async (input) => {
+  const mainUrl = "http://api.weatherapi.com/v1/search.json";
+  const apiQuery = "?key=fcfc5bf03eb543b5be0185337231909";
+  const inputQuery = `&q=${input}`;
+  const response = await fetch(`${mainUrl}${apiQuery}${inputQuery}`, {
+    mode: "cors",
+  });
+  const data = await response.json();
+  const suggestions = [];
+  // summarizes json object with suggestions and converts each suggestion
+  // object to a string instead
+  data.forEach((suggestion) => {
+    suggestions[
+      data.indexOf(suggestion)
+    ] = `${suggestion.name} (${suggestion.region}), ${suggestion.country}`;
+  });
+
+  autoCompleteMenu.style.display = "block";
+  while (autoCompleteMenu.firstChild) {
+    autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
+  }
+  // creates a new <p> element in the autocomplete menu for each suggestion
+  suggestions.forEach((suggestion) => {
+    autoCompleteMenu.appendChild(document.createElement("p")).textContent =
+      suggestion;
+  });
+  console.log(suggestions);
+};
+
+searchInput.addEventListener("keypress", (e) => {
+  autoComplete(searchInput.value);
+});
+
 searchInput.focus();
 
-/// set up autocomplete =>
-// http://api.weatherapi.com/v1/search.json?key=fcfc5bf03eb543b5be0185337231909&q=
-/// +city
+/// fix autocomplete bugs
+/// prevent user from searching while input is empty
+/// test for other bugs
 
 /// pimp up design and UX both on desktop and mobile
