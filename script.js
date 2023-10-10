@@ -138,36 +138,7 @@ const loading = document.querySelector(".loading");
 // get weather data when search button is clicked, for the location
 // that's in the input
 searchButton.addEventListener("click", async () => {
-  if (searchInput.value.length < 3) {
-    return;
-  }
-  const location = searchInput.value;
-  loading.style.display = "flex";
-  const current = await getCurrent(location);
-  const tomorrow = await getFuture(location, 1);
-  const vdrugiden = await getFuture(location, 2);
-  loading.style.display = "none";
-  weatherCard.style.display = "grid";
-  tomorrowCard.style.display = "grid";
-  vdrugidenCard.style.display = "grid";
-  populateCurrent(current);
-  populateTomorrow(tomorrow);
-  populateVdrugiden(vdrugiden);
-  searchInput.value = "";
-  while (autoCompleteMenu.firstChild) {
-    autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
-  }
-  autoCompleteMenu.style.display = "none";
-});
-
-// same as above but when you hit enter
-searchInput.addEventListener("keydown", async (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    if (searchInput.value.length < 3) {
-      searchInput.setCustomValidity("Too short.");
-      return;
-    }
+  if (searchInput.value.length >= 3) {
     const location = searchInput.value;
     loading.style.display = "flex";
     const current = await getCurrent(location);
@@ -185,6 +156,32 @@ searchInput.addEventListener("keydown", async (e) => {
       autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
     }
     autoCompleteMenu.style.display = "none";
+  }
+});
+
+// same as above but when you hit enter
+searchInput.addEventListener("keydown", async (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    if (searchInput.value.length >= 3) {
+      const location = searchInput.value;
+      loading.style.display = "flex";
+      const current = await getCurrent(location);
+      const tomorrow = await getFuture(location, 1);
+      const vdrugiden = await getFuture(location, 2);
+      loading.style.display = "none";
+      weatherCard.style.display = "grid";
+      tomorrowCard.style.display = "grid";
+      vdrugidenCard.style.display = "grid";
+      populateCurrent(current);
+      populateTomorrow(tomorrow);
+      populateVdrugiden(vdrugiden);
+      searchInput.value = "";
+      while (autoCompleteMenu.firstChild) {
+        autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
+      }
+      autoCompleteMenu.style.display = "none";
+    }
   }
 });
 
@@ -257,7 +254,5 @@ searchInput.addEventListener("keydown", (e) => {
 // focus the search input on page load
 searchInput.focus();
 
-/// prevent user from searching while input is empty
-/// test for other bugs
-
 /// pimp up design and UX both on desktop and mobile
+/// test for other bugs

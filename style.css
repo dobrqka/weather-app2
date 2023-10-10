@@ -72,6 +72,15 @@ input::placeholder {
   color: rgb(209, 209, 209);
 }
 
+input:invalid + span::after {
+  content: "Too short. (Min 3 characters.)";
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  left: 0.5rem;
+  font-weight: 600;
+}
+
 form > div {
   position: relative;
 }
