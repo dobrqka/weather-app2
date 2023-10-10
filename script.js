@@ -16,7 +16,6 @@ const getData = async (location) => {
       }
     );
     const weatherData = await response.json();
-    console.log(weatherData);
     return weatherData;
   } catch (error) {
     console.error("Error:", error);
@@ -45,7 +44,6 @@ const getCurrent = async (location) => {
     icon: currentWeather.condition.icon,
     uv: currentWeather.uv,
   };
-  console.log(mainWeatherObj);
   return currentGeneral;
 };
 
@@ -53,6 +51,7 @@ const getCurrent = async (location) => {
 const getFuture = async (location, day) => {
   const mainWeatherObj = await getData(location);
   const currentDay = mainWeatherObj.forecast.forecastday[day];
+  // object containing generalized info for an upcoming day
   const futureWeather = {
     date: currentDay.date,
     tempMax: currentDay.day.maxtemp_c,
@@ -62,7 +61,6 @@ const getFuture = async (location, day) => {
     rainChance: currentDay.day.daily_chance_of_rain,
     wind: Math.round(currentDay.day.maxwind_kph * 0.28) + "m/s",
   };
-  console.log(futureWeather);
   return futureWeather;
 };
 
@@ -83,7 +81,7 @@ const uv = document.querySelector(".uv");
 const populateCurrent = (weatherObj) => {
   weatherLocation.textContent = `${weatherObj.location} (${weatherObj.region}), ${weatherObj.country}`;
   weatherDate.textContent = new Date().toUTCString();
-  weatherTemp.textContent = weatherObj.temp;
+  weatherTemp.textContent = `Current: ${weatherObj.temp}`;
   weatherGeneral.textContent = weatherObj.general;
   weatherIcon.src = "https:" + weatherObj.icon;
   weatherFeel.textContent = `Feels like: ${weatherObj.feels}`;
@@ -134,18 +132,22 @@ const searchInput = document.querySelector(".search input");
 const weatherCard = document.querySelector(".weather-card");
 const tomorrowCard = document.querySelector(".tomorrow-card");
 const vdrugidenCard = document.querySelector(".vdrugiden-card");
+// target loading screen
+const loading = document.querySelector(".loading");
 
 // get weather data when search button is clicked, for the location
 // that's in the input
 searchButton.addEventListener("click", async () => {
   const location = searchInput.value;
-  const weatherInfo = await getCurrent(location);
+  loading.style.display = "flex";
+  const current = await getCurrent(location);
   const tomorrow = await getFuture(location, 1);
   const vdrugiden = await getFuture(location, 2);
+  loading.style.display = "none";
   weatherCard.style.display = "grid";
   tomorrowCard.style.display = "grid";
   vdrugidenCard.style.display = "grid";
-  populateCurrent(weatherInfo);
+  populateCurrent(current);
   populateTomorrow(tomorrow);
   populateVdrugiden(vdrugiden);
   searchInput.value = "";
@@ -156,13 +158,15 @@ searchInput.addEventListener("keydown", async (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
     const location = searchInput.value;
-    const weatherInfo = await getCurrent(location);
+    loading.style.display = "flex";
+    const current = await getCurrent(location);
     const tomorrow = await getFuture(location, 1);
     const vdrugiden = await getFuture(location, 2);
+    loading.style.display = "none";
     weatherCard.style.display = "grid";
     tomorrowCard.style.display = "grid";
     vdrugidenCard.style.display = "grid";
-    populateCurrent(weatherInfo);
+    populateCurrent(current);
     populateTomorrow(tomorrow);
     populateVdrugiden(vdrugiden);
     searchInput.value = "";
@@ -171,8 +175,8 @@ searchInput.addEventListener("keydown", async (e) => {
 
 searchInput.focus();
 
-//////// set up functions to get forecast for upcoming days
-
 /// set up autocomplete =>
 // http://api.weatherapi.com/v1/search.json?key=fcfc5bf03eb543b5be0185337231909&q=
 /// +city
+
+/// pimp up design and UX both on desktop and mobile

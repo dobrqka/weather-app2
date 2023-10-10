@@ -210,3 +210,13 @@ input::placeholder {
   font-weight: 600;
   color: rgb(92, 92, 92);
 }
+
+.loading {
+  position: absolute;
+  background-color: rgba(252, 252, 252, 0.6);
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
