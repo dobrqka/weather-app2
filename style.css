@@ -18,6 +18,8 @@ body {
   flex-direction: column;
   gap: 2rem;
   background-color: #08c758;
+  min-height: 100vh;
+  justify-content: start;
 }
 
 header {
@@ -68,8 +70,8 @@ input::placeholder {
 
 .weather-info {
   background-color: #08c758;
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  /* height: 100%; */
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-content: center;
@@ -209,6 +211,37 @@ input::placeholder {
   font-size: 1.2rem;
   font-weight: 600;
   color: rgb(92, 92, 92);
+}
+
+footer {
+  margin-top: auto;
+  color: white;
+  background-color: #1652ac;
+  display: grid;
+  font-weight: 600;
+}
+
+.github {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+}
+
+.github a {
+  overflow: hidden;
+}
+
+.github img {
+  width: 4rem;
+}
+
+.github img:hover {
+  transform: rotate(45deg);
+}
+
+.github img:active {
+  transform: rotate(180deg);
 }
 
 .loading {
