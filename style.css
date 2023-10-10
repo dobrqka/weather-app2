@@ -72,6 +72,10 @@ input::placeholder {
   color: rgb(209, 209, 209);
 }
 
+form > div {
+  position: relative;
+}
+
 .autocomplete {
   position: absolute;
   background-color: white;
@@ -80,6 +84,16 @@ input::placeholder {
   border-radius: 0.25rem;
   padding: 0.5rem;
   display: none;
+  width: 100%;
+}
+
+.autocomplete p {
+  cursor: pointer;
+}
+
+.autocomplete p:hover {
+  background-color: rgb(206, 206, 206);
+  cursor: pointer;
 }
 
 .weather-info {

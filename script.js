@@ -138,6 +138,9 @@ const loading = document.querySelector(".loading");
 // get weather data when search button is clicked, for the location
 // that's in the input
 searchButton.addEventListener("click", async () => {
+  if (searchInput.value.length < 3) {
+    return;
+  }
   const location = searchInput.value;
   loading.style.display = "flex";
   const current = await getCurrent(location);
@@ -151,12 +154,20 @@ searchButton.addEventListener("click", async () => {
   populateTomorrow(tomorrow);
   populateVdrugiden(vdrugiden);
   searchInput.value = "";
+  while (autoCompleteMenu.firstChild) {
+    autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
+  }
+  autoCompleteMenu.style.display = "none";
 });
 
 // same as above but when you hit enter
 searchInput.addEventListener("keydown", async (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
+    if (searchInput.value.length < 3) {
+      searchInput.setCustomValidity("Too short.");
+      return;
+    }
     const location = searchInput.value;
     loading.style.display = "flex";
     const current = await getCurrent(location);
@@ -170,11 +181,33 @@ searchInput.addEventListener("keydown", async (e) => {
     populateTomorrow(tomorrow);
     populateVdrugiden(vdrugiden);
     searchInput.value = "";
+    while (autoCompleteMenu.firstChild) {
+      autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
+    }
+    autoCompleteMenu.style.display = "none";
   }
 });
 
 /// target autocomplete dropdown DOM element
 const autoCompleteMenu = document.querySelector(".autocomplete");
+
+// when you click on a suggestion set the search input's value to the
+// text content of the target suggestion and clear the suggestions list
+const selectSuggestion = () => {
+  // target autocomplete suggestions
+  const autoSuggestions = document.querySelectorAll(".autocomplete p");
+  // magic
+  autoSuggestions.forEach((suggestion) => {
+    suggestion.addEventListener("click", () => {
+      searchInput.value = suggestion.textContent;
+      while (autoCompleteMenu.firstChild) {
+        autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
+      }
+      autoCompleteMenu.style.display = "none";
+      searchInput.focus();
+    });
+  });
+};
 
 /// autocomplete function that shows suggestions based on current input
 const autoComplete = async (input) => {
@@ -194,25 +227,36 @@ const autoComplete = async (input) => {
     ] = `${suggestion.name} (${suggestion.region}), ${suggestion.country}`;
   });
 
-  autoCompleteMenu.style.display = "block";
   while (autoCompleteMenu.firstChild) {
     autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
   }
-  // creates a new <p> element in the autocomplete menu for each suggestion
-  suggestions.forEach((suggestion) => {
-    autoCompleteMenu.appendChild(document.createElement("p")).textContent =
-      suggestion;
-  });
-  console.log(suggestions);
+  if (suggestions.length === 0) {
+    autoCompleteMenu.style.display = "none";
+  } else if (suggestions.length > 0) {
+    autoCompleteMenu.style.display = "block";
+    // creates a new <p> element in the autocomplete menu for each suggestion
+    suggestions.forEach((suggestion) => {
+      autoCompleteMenu.appendChild(document.createElement("p")).textContent =
+        suggestion;
+    });
+    selectSuggestion();
+  }
 };
 
-searchInput.addEventListener("keypress", (e) => {
-  autoComplete(searchInput.value);
+// implement autocomplete functionality whenever the user inputs something
+// in the search input
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    return;
+  }
+  if (searchInput.value.length >= 2) {
+    autoComplete(searchInput.value);
+  }
 });
 
+// focus the search input on page load
 searchInput.focus();
 
-/// fix autocomplete bugs
 /// prevent user from searching while input is empty
 /// test for other bugs
 
