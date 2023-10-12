@@ -256,3 +256,4 @@ searchInput.focus();
 
 /// pimp up design and UX both on desktop and mobile
 /// test for other bugs
+/// clean up html, css and js code, document it better
