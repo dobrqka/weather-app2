@@ -20,6 +20,7 @@ body {
   background-color: #08c758;
   min-height: 100vh;
   justify-content: start;
+  background-size: cover;
 }
 
 header {
@@ -36,8 +37,6 @@ header {
 }
 
 form {
-  /* margin: 1rem; */
-  background-color: #08c758;
   display: flex;
   justify-content: center;
 }
@@ -45,11 +44,12 @@ form {
 button {
   border-radius: 0.5rem;
   border: none;
-  background-color: #08c758;
+  background: none;
+  margin-left: 0.5rem;
 }
 
 button:hover {
-  background-color: rgb(95, 206, 141);
+  background-color: rgb(255, 255, 255, 0.2);
   cursor: pointer;
 }
 
@@ -108,7 +108,6 @@ form > div {
 
 .weather-info {
   width: 100%;
-  background-color: #08c758;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 50%));
   justify-content: center;
@@ -117,7 +116,7 @@ form > div {
 .weather-card {
   margin: 0.5rem 2rem;
   width: auto;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.5);
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -128,6 +127,7 @@ form > div {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   column-gap: 1rem;
+  color: white;
 }
 
 .weather-card {
@@ -139,9 +139,9 @@ form > div {
   margin: 0.5rem 2rem;
   width: auto;
   height: auto;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.5);
   display: grid;
-  grid-template-columns: 2fr 1fr 2fr 2fr;
+  grid-template-columns: 2fr 1fr 2fr 2fr 2fr;
   align-items: center;
   padding-left: 1rem;
   display: none;
@@ -171,38 +171,74 @@ form > div {
   justify-self: center;
   font-size: 1.2rem;
   font-weight: 900;
+  color: white;
 }
 
-.temp,
+.temp {
+  font-size: 1.2rem;
+  font-weight: 600;
+  /* color: rgb(92, 92, 92); */
+}
+
 .tomorrow-temp-max,
+.vdrugiden-temp-max {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: rgb(254, 147, 147);
+}
+
 .tomorrow-temp-min,
-.vdrugiden-temp-max,
 .vdrugiden-temp-min {
   font-size: 1.2rem;
   font-weight: 600;
-  color: rgb(92, 92, 92);
+  color: rgb(165, 145, 251);
+}
+
+.min-max-temp-section,
+.wind-section,
+.rain-section {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.rain-section {
+  gap: 0;
+}
+
+.temp {
+  grid-column: span 2;
+  justify-self: center;
+  font-size: 3rem;
 }
 
 .feel {
   font-size: 1.2rem;
   font-weight: 600;
-  color: rgb(92, 92, 92);
+  /* color: rgb(92, 92, 92); */
+  grid-column: span 2;
+  justify-self: center;
 }
 
 .general-info {
   display: flex;
+  flex-direction: column;
   align-items: center;
   grid-column: 2 / 4;
   font-size: 1.2rem;
   font-weight: 600;
-  color: rgb(92, 92, 92);
+  /* color: rgb(92, 92, 92); */
 }
 
-.icon,
 .tomorrow-icon,
 .vdrugiden-icon {
   width: 3rem;
   height: 3rem;
+}
+.icon {
+  width: 10rem;
 }
 
 .rain-main,
@@ -210,31 +246,53 @@ form > div {
 .general-main {
   display: grid;
   justify-content: start;
+  align-items: center;
+}
+
+.uv-main {
+  grid-column: span 2;
+  justify-self: center;
+  margin-bottom: 4rem;
+}
+
+.general-main {
+  grid-column: span 2;
+  justify-self: center;
 }
 
 .rain {
   grid-column: 2 / 4;
   font-size: 1.2rem;
   font-weight: 600;
-  color: rgb(92, 92, 92);
+  /* color: rgb(92, 92, 92); */
+  justify-self: start;
 }
 
 .tomorrow-rain,
 .vdrugiden-rain {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
-  color: rgb(92, 92, 92);
+  color: white;
 }
 
-.wind,
-.tomorrow-wind-speed,
-.vdrugiden-wind-speed {
+.wind {
+  justify-self: end;
   display: flex;
   gap: 0.2rem;
   align-items: center;
   font-size: 1.2rem;
   font-weight: 600;
-  color: rgb(92, 92, 92);
+  /* color: rgb(92, 92, 92); */
+}
+
+.tomorrow-wind-speed,
+.vdrugiden-wind-speed {
+  display: flex;
+  /* gap: 0.2rem; */
+  align-items: center;
+  font-size: 1remrem;
+  font-weight: 600;
+  color: white;
 }
 
 .wind-dir {
@@ -242,10 +300,9 @@ form > div {
 }
 
 .uv {
-  grid-column: 2 / 4;
   font-size: 1.2rem;
   font-weight: 600;
-  color: rgb(92, 92, 92);
+  /* color: rgb(92, 92, 92); */
 }
 
 footer {
@@ -287,4 +344,160 @@ footer {
   display: none;
   align-items: center;
   justify-content: center;
+}
+
+.rain-icon,
+.wind-icon,
+.tomorrow-rain-icon,
+.tomorrow-wind-icon,
+.vdrugiden-rain-icon,
+.vdrugiden-wind-icon,
+.wind-dir,
+button > img {
+  filter: invert(1);
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+
+  .wind-section,
+  .rain-section,
+  footer,
+  header {
+    display: none;
+  }
+
+  html {
+    font-size: 6px;
+  }
+
+  .weather-info {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .weather-card {
+    gap: 2rem;
+  }
+
+  form {
+    margin-top: 3rem;
+  }
+
+  input {
+    font-size: 3rem;
+    border-radius: 3rem;
+    padding: 1rem;
+  }
+
+  input:invalid + span::after {
+    font-size: 3rem;
+    color: white;
+    font-weight: 500;
+  }
+
+  button > img {
+    width: 4rem;
+    height: 4rem;
+    align-self: center;
+    margin-left: 2rem;
+  }
+
+  .autocomplete {
+    font-size: 3rem;
+    opacity: 0.9;
+    border-radius: 2rem;
+    padding: 1rem;
+  }
+
+  .location {
+    font-size: 7rem;
+    font-weight: 500;
+  }
+
+  .date {
+    font-size: 4rem;
+    font-weight: 600;
+  }
+
+  .temp {
+    font-size: 10rem;
+    font-weight: 500;
+  }
+
+  .feel {
+    font-size: 3rem;
+    font-weight: 600;
+  }
+
+  .general-info {
+    font-size: 5rem;
+    font-weight: 500;
+  }
+
+  .icon {
+    width: 25rem;
+  }
+
+  .rain {
+    font-size: 3.5rem;
+    font-weight: 500;
+  }
+
+  .rain-icon {
+    width: 6rem;
+  }
+
+  .wind {
+    font-size: 4rem;
+    font-weight: 500;
+  }
+
+  .wind-dir {
+    width: 2.5rem;
+  }
+
+  .uv {
+    font-size: 4rem;
+    font-weight: 500;
+  }
+
+  .tomorrow-card,
+  .vdrugiden-card {
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    align-items: center;
+    font-size: 2.5rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    flex: 1;
+  }
+
+  .tomorrow-date,
+  .vdrugiden-date {
+    font-size: 3.5rem;
+    font-weight: 500;
+  }
+
+  .tomorrow-icon,
+  .vdrugiden-icon {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .min-max-temp-section {
+    grid-row: 1;
+    grid-column: 2/3;
+  }
+
+  .tomorrow-temp-min,
+  .tomorrow-temp-max,
+  .vdrugiden-temp-min,
+  .vdrugiden-temp-max {
+    font-size: 3rem;
+    font-weight: 500;
+  }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Weather App</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,46 +34,58 @@
         <h1 class="location"></h1>
         <h2 class="date"></h2>
         <div class="temp"></div>
+        <div class="feel"></div>
         <div class="general-main">
           <div class="general-info">
-            <div class="general"></div>
             <div><img class="icon" /></div>
+            <div class="general"></div>
           </div>
-        </div>
-        <div class="feel"></div>
-        <div class="rain-main">
-          <div class="rain"></div>
-        </div>
-        <div class="wind">
-          Wind:
-          <div><img class="wind-dir" /></div>
-          <div class="wind-speed"></div>
         </div>
         <div class="uv-main">
           <div class="uv"></div>
+        </div>
+        <div class="rain-main">
+          <img class="rain-icon" src="./images/rain.png" />
+          <div class="rain"></div>
+        </div>
+        <div class="wind">
+          <img class="wind-icon" src="./images/wind.png" />
+          <div><img class="wind-dir" /></div>
+          <div class="wind-speed"></div>
         </div>
       </div>
       <div class="tomorrow-card">
         <div class="tomorrow-date"></div>
         <div class="tomorrow-general"><img class="tomorrow-icon" /></div>
-        <div>
-          <div class="tomorrow-temp-max"></div>
+        <div class="min-max-temp-section">
           <div class="tomorrow-temp-min"></div>
+          <div>/</div>
+          <div class="tomorrow-temp-max"></div>
         </div>
-        <div>
+        <div class="rain-section">
+          <img class="tomorrow-rain-icon" src="./images/rain.png" />
           <div class="tomorrow-rain"></div>
+        </div>
+        <div class="wind-section">
+          <img class="tomorrow-wind-icon" src="./images/wind.png" />
           <div class="tomorrow-wind-speed"></div>
         </div>
       </div>
       <div class="vdrugiden-card">
         <div class="vdrugiden-date"></div>
         <div class="vdrugiden-general"><img class="vdrugiden-icon" /></div>
-        <div>
-          <div class="vdrugiden-temp-max"></div>
+        <div class="min-max-temp-section">
           <div class="vdrugiden-temp-min"></div>
+          <div>/</div>
+          <div class="vdrugiden-temp-max"></div>
         </div>
-        <div>
+
+        <div class="rain-section">
+          <img class="vdrugiden-rain-icon" src="./images/rain.png" />
           <div class="vdrugiden-rain"></div>
+        </div>
+        <div class="wind-section">
+          <img class="vdrugiden-wind-icon" src="./images/wind.png" />
           <div class="vdrugiden-wind-speed"></div>
         </div>
       </div>

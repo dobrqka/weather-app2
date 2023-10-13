@@ -28,7 +28,7 @@ const getData = async (location) => {
 const getCurrent = async (location) => {
   const mainWeatherObj = await getData(location);
   const currentWeather = mainWeatherObj.current;
-
+  console.log(mainWeatherObj);
   // object containining only summarized current weather info
   const currentGeneral = {
     location: mainWeatherObj.location.name,
@@ -46,14 +46,26 @@ const getCurrent = async (location) => {
   };
   return currentGeneral;
 };
-
+// week days array to convert date to weekday
+const weekDays = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 // uses getData function to fetch weather info for the next 2 days
 const getFuture = async (location, day) => {
   const mainWeatherObj = await getData(location);
   const currentDay = mainWeatherObj.forecast.forecastday[day];
+  // convert date such as 12-10-2023 to a weekday such as Friday
+  const futureDate = new Date(currentDay.date);
+  const futureDay = weekDays[futureDate.getDay()];
   // object containing generalized info for an upcoming day
   const futureWeather = {
-    date: currentDay.date,
+    date: futureDay,
     tempMax: currentDay.day.maxtemp_c,
     tempMin: currentDay.day.mintemp_c,
     icon: currentDay.day.condition.icon,
@@ -76,19 +88,74 @@ const weatherWindSpeed = document.querySelector(".wind-speed");
 const weatherWindDirection = document.querySelector(".wind-dir");
 const uv = document.querySelector(".uv");
 
+// summarize weather
+const summarizeWeather = (condition) => {
+  if (condition === "Sunny") {
+    return "sunny";
+  } else if (condition === "Clear") {
+    return "clear";
+  } else if (condition === "Partly cloudy") {
+    return "cloudy";
+  } else if (
+    condition === "Mist" ||
+    condition === "Fog" ||
+    condition === "Freezing fog"
+  ) {
+    return "mist";
+  } else if (condition === "Cloudy" || condition === "Overcast") {
+    return "overcast";
+  } else if (
+    condition === "Moderate or heavy snow with thunder" ||
+    condition === "Patchy light snow with thunder" ||
+    condition === "Patchy light rain with thunder" ||
+    condition === "Moderate or heavy rain with thunder" ||
+    condition === "Thundery outbreaks possible"
+  ) {
+    return "thunder";
+  } else if (
+    condition === "Patchy rain possible" ||
+    condition === "Patchy rain possible" ||
+    condition === "Patchy freezing drizzle possible" ||
+    condition === "Patchy light drizzle" ||
+    condition === "Light drizzle" ||
+    condition === "Freezing drizzle" ||
+    condition === "Heavy freezing drizzle" ||
+    condition === "Patchy light rain" ||
+    condition === "Light rain" ||
+    condition === "Moderate rain at times" ||
+    condition === "Moderate rain" ||
+    condition === "Heavy rain at times" ||
+    condition === "Heavy rain" ||
+    condition === "Light freezing rain" ||
+    condition === "Moderate or heavy freezing rain" ||
+    condition === "Light rain shower" ||
+    condition === "Moderate or heavy rain shower" ||
+    condition === "Torrential rain shower"
+  ) {
+    return "rain";
+  } else {
+    return "snow";
+  }
+};
+
 // function that populates weather info with the details provided
 // by the response of the API call after the user runs the search
 const populateCurrent = (weatherObj) => {
-  weatherLocation.textContent = `${weatherObj.location} (${weatherObj.region}), ${weatherObj.country}`;
-  weatherDate.textContent = new Date().toUTCString();
-  weatherTemp.textContent = `Current: ${weatherObj.temp}`;
+  // weatherLocation.textContent = ${weatherObj.location} (${weatherObj.region}), ${weatherObj.country};
+  weatherLocation.textContent = `${weatherObj.location}`;
+  const dateString = new Date().toUTCString();
+  weatherDate.textContent = Array.from(dateString).splice(0, 11).join("");
+  weatherTemp.textContent = `${weatherObj.temp}`;
   weatherGeneral.textContent = weatherObj.general;
   weatherIcon.src = "https:" + weatherObj.icon;
-  weatherFeel.textContent = `Feels like: ${weatherObj.feels}`;
-  weatherRain.textContent = `Rain: ${weatherObj.rain} (${weatherObj.rainChance}%)`;
+  weatherFeel.textContent = `Feels: ${weatherObj.feels}`;
+  weatherRain.textContent = `${weatherObj.rain} (${weatherObj.rainChance}%)`;
   weatherWindDirection.src = `./images/${weatherObj.windDir}.png`;
   weatherWindSpeed.textContent = weatherObj.wind;
   uv.textContent = `UV: ${weatherObj.uv}`;
+  document.body.style.backgroundImage = `url(
+    "./images/weather/${summarizeWeather(weatherObj.general)}.jpeg"
+  )`;
 };
 
 // target tomorrow weather info's DOM elements
@@ -101,11 +168,11 @@ const tomorrowWindSpeed = document.querySelector(".tomorrow-wind-speed");
 // populates tomorrow's card
 const populateTomorrow = (weatherObj) => {
   tomorrowDate.textContent = weatherObj.date;
-  tomorrowTempMax.textContent = `Max t°: ${weatherObj.tempMax}°C`;
-  tomorrowTempMin.textContent = `Min t°: ${weatherObj.tempMin}°C`;
+  tomorrowTempMax.textContent = `${weatherObj.tempMax}°C`;
+  tomorrowTempMin.textContent = `${weatherObj.tempMin}°C`;
   tomorrowIcon.src = "https:" + weatherObj.icon;
-  tomorrowRain.textContent = `Rain: ${weatherObj.rain}mm (${weatherObj.rainChance}%)`;
-  tomorrowWindSpeed.textContent = `Wind: ${weatherObj.wind}`;
+  tomorrowRain.textContent = `${weatherObj.rain}mm (${weatherObj.rainChance}%)`;
+  tomorrowWindSpeed.textContent = `${weatherObj.wind}`;
 };
 
 // target vdrugiden weather info's DOM elements
@@ -118,17 +185,18 @@ const vdrugidenWindSpeed = document.querySelector(".vdrugiden-wind-speed");
 // populates vdrugiden's card
 const populateVdrugiden = (weatherObj) => {
   vdrugidenDate.textContent = weatherObj.date;
-  vdrugidenTempMax.textContent = `Max t°: ${weatherObj.tempMax}°C`;
-  vdrugidenTempMin.textContent = `Min t°: ${weatherObj.tempMin}°C`;
+  vdrugidenTempMax.textContent = `${weatherObj.tempMax}°C`;
+  vdrugidenTempMin.textContent = `${weatherObj.tempMin}°C`;
   vdrugidenIcon.src = "https:" + weatherObj.icon;
-  vdrugidenRain.textContent = `Rain: ${weatherObj.rain}mm (${weatherObj.rainChance}%)`;
-  vdrugidenWindSpeed.textContent = `Wind: ${weatherObj.wind}`;
+  vdrugidenRain.textContent = `${weatherObj.rain}mm (${weatherObj.rainChance}%)`;
+  vdrugidenWindSpeed.textContent = `${weatherObj.wind}`;
 };
 
 // target search button and search input
 const searchButton = document.querySelector(".search button");
 const searchInput = document.querySelector(".search input");
 // target weather info cards
+const weatherInfo = document.querySelector(".weather-info");
 const weatherCard = document.querySelector(".weather-card");
 const tomorrowCard = document.querySelector(".tomorrow-card");
 const vdrugidenCard = document.querySelector(".vdrugiden-card");
@@ -254,6 +322,6 @@ searchInput.addEventListener("keydown", (e) => {
 // focus the search input on page load
 searchInput.focus();
 
-/// pimp up design and UX both on desktop and mobile
-/// test for other bugs
+/// background image at start
+/// pimp up design and UX on desktop
 /// clean up html, css and js code, document it better
