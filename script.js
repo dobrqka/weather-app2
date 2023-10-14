@@ -206,6 +206,10 @@ const loading = document.querySelector(".loading");
 // get weather data when search button is clicked, for the location
 // that's in the input
 searchButton.addEventListener("click", async () => {
+  if (!searchInput.classList.contains("visible")) {
+    searchInput.classList.add("visible");
+    return;
+  }
   if (searchInput.value.length >= 3) {
     const location = searchInput.value;
     loading.style.display = "flex";
@@ -224,6 +228,9 @@ searchButton.addEventListener("click", async () => {
       autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
     }
     autoCompleteMenu.style.display = "none";
+    if (searchInput.classList.contains("visible")) {
+      searchInput.classList.remove("visible");
+    }
   }
 });
 

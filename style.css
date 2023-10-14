@@ -357,6 +357,10 @@ button > img {
   filter: invert(1);
 }
 
+.visible {
+  visibility: visible;
+}
+
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
 
@@ -390,12 +394,17 @@ button > img {
     font-size: 3rem;
     border-radius: 3rem;
     padding: 1rem;
+    visibility: hidden;
   }
 
   input:invalid + span::after {
     font-size: 3rem;
     color: white;
     font-weight: 500;
+  }
+
+  button:hover {
+    background-color: rgba(0, 0, 0, 0);
   }
 
   button > img {
