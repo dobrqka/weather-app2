@@ -43,6 +43,14 @@ const getCurrent = async (location) => {
     general: currentWeather.condition.text,
     icon: currentWeather.condition.icon,
     uv: currentWeather.uv,
+    humidity: `${currentWeather.humidity}%`,
+    pressure: `${currentWeather.pressure_mb} hPa`,
+    sunrise: mainWeatherObj.forecast.forecastday[0].astro.sunrise,
+    sunset: mainWeatherObj.forecast.forecastday[0].astro.sunset,
+    moonrise: mainWeatherObj.forecast.forecastday[0].astro.moonrise,
+    moonset: mainWeatherObj.forecast.forecastday[0].astro.moonset,
+    moonPhase: mainWeatherObj.forecast.forecastday[0].astro.moon_phase,
+    moonIllumination: `${mainWeatherObj.forecast.forecastday[0].astro.moon_illumination}%`,
   };
   return currentGeneral;
 };
@@ -68,6 +76,7 @@ const getFuture = async (location, day) => {
     date: futureDay,
     tempMax: currentDay.day.maxtemp_c,
     tempMin: currentDay.day.mintemp_c,
+    humidity: currentDay.day.avghumidity,
     icon: currentDay.day.condition.icon,
     rain: currentDay.day.totalprecip_mm,
     rainChance: currentDay.day.daily_chance_of_rain,
@@ -87,6 +96,14 @@ const weatherRain = document.querySelector(".rain");
 const weatherWindSpeed = document.querySelector(".wind-speed");
 const weatherWindDirection = document.querySelector(".wind-dir");
 const uv = document.querySelector(".uv");
+const humidity = document.querySelector(".humidity-perc");
+const pressure = document.querySelector(".pressure");
+const sunrise = document.querySelector(".sunrise");
+const sunset = document.querySelector(".sunset");
+const moonrise = document.querySelector(".moonrise");
+const moonset = document.querySelector(".moonset");
+const moonIcon = document.querySelector(".moon-icon > img");
+const moonPhase = document.querySelector(".moon-phase");
 
 // summarize weather
 const summarizeWeather = (condition) => {
@@ -156,12 +173,21 @@ const populateCurrent = (weatherObj) => {
   document.body.style.backgroundImage = `url(
     "./images/weather/${summarizeWeather(weatherObj.general)}.jpeg"
   )`;
+  humidity.textContent = weatherObj.humidity;
+  pressure.textContent = weatherObj.pressure;
+  sunrise.textContent = weatherObj.sunrise;
+  sunset.textContent = weatherObj.sunset;
+  moonrise.textContent = weatherObj.moonrise;
+  moonset.textContent = weatherObj.moonset;
+  moonIcon.src = `./images/moon/${weatherObj.moonPhase.replace(" ", "")}.png`;
+  moonPhase.textContent = `${weatherObj.moonPhase} (${weatherObj.moonIllumination})`;
 };
 
 // target tomorrow weather info's DOM elements
 const tomorrowDate = document.querySelector(".tomorrow-date");
 const tomorrowTempMax = document.querySelector(".tomorrow-temp-max");
 const tomorrowTempMin = document.querySelector(".tomorrow-temp-min");
+const tomorrowHumidity = document.querySelector(".tomorrow-humidity-perc");
 const tomorrowIcon = document.querySelector(".tomorrow-icon");
 const tomorrowRain = document.querySelector(".tomorrow-rain");
 const tomorrowWindSpeed = document.querySelector(".tomorrow-wind-speed");
@@ -171,6 +197,7 @@ const populateTomorrow = (weatherObj) => {
   tomorrowTempMax.textContent = `${weatherObj.tempMax}°C`;
   tomorrowTempMin.textContent = `${weatherObj.tempMin}°C`;
   tomorrowIcon.src = "https:" + weatherObj.icon;
+  tomorrowHumidity.textContent = `${weatherObj.humidity}%`;
   tomorrowRain.textContent = `${weatherObj.rain}mm (${weatherObj.rainChance}%)`;
   tomorrowWindSpeed.textContent = `${weatherObj.wind}`;
 };
@@ -179,6 +206,7 @@ const populateTomorrow = (weatherObj) => {
 const vdrugidenDate = document.querySelector(".vdrugiden-date");
 const vdrugidenTempMax = document.querySelector(".vdrugiden-temp-max");
 const vdrugidenTempMin = document.querySelector(".vdrugiden-temp-min");
+const vdrugidenHumidity = document.querySelector(".vdrugiden-humidity-perc");
 const vdrugidenIcon = document.querySelector(".vdrugiden-icon");
 const vdrugidenRain = document.querySelector(".vdrugiden-rain");
 const vdrugidenWindSpeed = document.querySelector(".vdrugiden-wind-speed");
@@ -188,6 +216,7 @@ const populateVdrugiden = (weatherObj) => {
   vdrugidenTempMax.textContent = `${weatherObj.tempMax}°C`;
   vdrugidenTempMin.textContent = `${weatherObj.tempMin}°C`;
   vdrugidenIcon.src = "https:" + weatherObj.icon;
+  vdrugidenHumidity.textContent = `${weatherObj.humidity}%`;
   vdrugidenRain.textContent = `${weatherObj.rain}mm (${weatherObj.rainChance}%)`;
   vdrugidenWindSpeed.textContent = `${weatherObj.wind}`;
 };

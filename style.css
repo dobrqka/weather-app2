@@ -21,12 +21,13 @@ body {
   min-height: 100vh;
   justify-content: start;
   background-size: cover;
+  background-image: url("./images/weather.jpg");
 }
 
 header {
   background-color: #1652ac;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   padding: 1rem;
   display: flex;
   justify-content: center;
@@ -60,8 +61,8 @@ button > img {
 
 input {
   margin-right: 0.2rem;
-  font-size: 1.2rem;
-  border-radius: 1.2rem;
+  font-size: 1.5rem;
+  border-radius: 2rem;
   outline: none;
   border: none;
   padding: 0.5rem;
@@ -79,7 +80,8 @@ input:invalid + span::after {
   width: 100%;
   left: 0.5rem;
   font-weight: 600;
-  color: rgb(53, 53, 53);
+  color: white;
+  font-size: 1.25rem;
 }
 
 form > div {
@@ -91,10 +93,12 @@ form > div {
   background-color: white;
   border: 1px solid rgb(70, 70, 70);
   top: 100%;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   padding: 0.5rem;
   display: none;
   width: 100%;
+  font-size: 2rem;
+  opacity: 0.9;
 }
 
 .autocomplete p {
@@ -109,7 +113,8 @@ form > div {
 .weather-info {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 50%));
+  grid-template-columns: 50% 25% 25%;
+  /* grid-template-columns: repeat(auto-fit, minmax(400px, 50%)); */
   justify-content: center;
 }
 
@@ -118,7 +123,7 @@ form > div {
   width: auto;
   background-color: rgba(0, 0, 0, 0.5);
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   padding-left: 1rem;
   display: none;
@@ -128,11 +133,12 @@ form > div {
   background-size: 100% 100%;
   column-gap: 1rem;
   color: white;
+  gap: 1.5rem;
 }
 
-.weather-card {
+/* .weather-card {
   grid-row: span 2;
-}
+} */
 
 .tomorrow-card,
 .vdrugiden-card {
@@ -141,7 +147,8 @@ form > div {
   height: auto;
   background-color: rgba(0, 0, 0, 0.5);
   display: grid;
-  grid-template-columns: 2fr 1fr 2fr 2fr 2fr;
+  grid-template-columns: 1fr 1fr;
+  /* grid-template-columns: 2fr 1fr 2fr 2fr 2fr; */
   align-items: center;
   padding-left: 1rem;
   display: none;
@@ -150,31 +157,33 @@ form > div {
   background-size: 100% 100%;
   padding: 2rem;
   justify-items: center;
+  align-items: center;
 }
 
 .location {
-  grid-column: span 2;
   justify-self: center;
-  font-size: 1.5rem;
-  font-weight: 900;
+  font-size: 3rem;
+  font-weight: 500;
 }
 
 .date {
-  grid-column: span 2;
+  /* grid-column: span 2; */
   justify-self: center;
-  font-size: 1.2rem;
-  font-weight: 900;
+  font-size: 2rem;
+  font-weight: 500;
+  grid-row: 2/3;
 }
 
 .tomorrow-date,
 .vdrugiden-date {
-  justify-self: center;
-  font-size: 1.2rem;
-  font-weight: 900;
+  font-size: 2.5rem;
+  font-weight: 500;
   color: white;
+  align-self: center;
 }
 
 .temp {
+  grid-column: 3/4;
   font-size: 1.2rem;
   font-weight: 600;
   /* color: rgb(92, 92, 92); */
@@ -182,15 +191,15 @@ form > div {
 
 .tomorrow-temp-max,
 .vdrugiden-temp-max {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 500;
   color: rgb(254, 147, 147);
 }
 
 .tomorrow-temp-min,
 .vdrugiden-temp-min {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 500;
   color: rgb(165, 145, 251);
 }
 
@@ -204,21 +213,26 @@ form > div {
   color: white;
 }
 
+.min-max-temp-section {
+  grid-column: span 2;
+  font-size: 2rem;
+}
+
 .rain-section {
   gap: 0;
+  grid-column: span 2;
 }
 
 .temp {
-  grid-column: span 2;
   justify-self: center;
   font-size: 3rem;
 }
 
 .feel {
-  font-size: 1.2rem;
-  font-weight: 600;
+  grid-column: 3/4;
+  font-size: 1.5rem;
+  font-weight: 500;
   /* color: rgb(92, 92, 92); */
-  grid-column: span 2;
   justify-self: center;
 }
 
@@ -232,13 +246,58 @@ form > div {
   /* color: rgb(92, 92, 92); */
 }
 
+.humidity {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  font-size: 2rem;
+}
+
+.humidity > img {
+  width: 2rem;
+}
+
+.pressure-main {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+}
+
+.pressure {
+  font-size: 1.75rem;
+  justify-self: center;
+}
+
+.pressure-main > img {
+  width: 3rem;
+}
+
+.tomorrow-general,
+.vdrugiden-general {
+  align-self: center;
+}
+
 .tomorrow-icon,
 .vdrugiden-icon {
-  width: 3rem;
-  height: 3rem;
+  width: 4rem;
+  height: 4rem;
 }
+
+.tomorrow-humidity,
+.vdrugiden-humidity {
+  font-size: 2rem;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.tomorrow-humidity > img,
+.vdrugiden-humidity > img {
+  width: 2.5rem;
+}
+
 .icon {
-  width: 10rem;
+  width: 5rem;
 }
 
 .rain-main,
@@ -250,39 +309,86 @@ form > div {
 }
 
 .uv-main {
-  grid-column: span 2;
   justify-self: center;
-  margin-bottom: 4rem;
+  grid-column: 2/3;
+}
+
+.uv {
+  font-size: 2rem;
+  font-weight: 500;
 }
 
 .general-main {
-  grid-column: span 2;
+  grid-row: 1/2;
+  grid-column: 2/3;
   justify-self: center;
+}
+
+.general {
+  grid-column: 2/3;
+  grid-row: 2/3;
+  justify-self: center;
+  font-size: 2rem;
 }
 
 .rain {
   grid-column: 2 / 4;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 500;
   /* color: rgb(92, 92, 92); */
   justify-self: start;
 }
 
 .tomorrow-rain,
 .vdrugiden-rain {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 500;
   color: white;
 }
 
+.tomorrow-rain-icon,
+.vdrugiden-rain-icon {
+  width: 3rem;
+}
+
 .wind {
-  justify-self: end;
+  justify-self: center;
   display: flex;
   gap: 0.2rem;
   align-items: center;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 500;
+  grid-row: 3/4;
   /* color: rgb(92, 92, 92); */
+}
+
+.sun {
+  justify-self: center;
+}
+
+.moon {
+  justify-self: center;
+}
+
+.sunrise-main,
+.sunset-main,
+.moonrise-main,
+.moonset-main {
+  display: flex;
+  align-items: center;
+}
+
+.moon-icon {
+  justify-self: center;
+}
+
+.moon-icon > img {
+  width: 3rem;
+}
+
+.moon-phase {
+  justify-self: center;
+  font-size: 1.5rem;
 }
 
 .tomorrow-wind-speed,
@@ -290,19 +396,13 @@ form > div {
   display: flex;
   /* gap: 0.2rem; */
   align-items: center;
-  font-size: 1remrem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 500;
   color: white;
 }
 
 .wind-dir {
-  width: 1rem;
-}
-
-.uv {
-  font-size: 1.2rem;
-  font-weight: 600;
-  /* color: rgb(92, 92, 92); */
+  width: 1.5rem;
 }
 
 footer {
@@ -353,7 +453,15 @@ footer {
 .vdrugiden-rain-icon,
 .vdrugiden-wind-icon,
 .wind-dir,
-button > img {
+button > img,
+.humidity > img,
+.tomorrow-humidity > img,
+.vdrugiden-humidity > img,
+.pressure-main > img,
+.sunrise-main > img,
+.sunset-main > img,
+.moonrise-main > img,
+.moonset-main > img {
   filter: invert(1);
 }
 
@@ -367,7 +475,15 @@ button > img {
   .wind-section,
   .rain-section,
   footer,
-  header {
+  header,
+  .tomorrow-humidity,
+  .vdrugiden-humidity,
+  .humidity,
+  .pressure-main,
+  .sun,
+  .moon,
+  .moon-phase,
+  .moon-icon {
     display: none;
   }
 
@@ -383,6 +499,7 @@ button > img {
   }
 
   .weather-card {
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
   }
 
@@ -422,32 +539,49 @@ button > img {
   }
 
   .location {
+    grid-column: span 2;
     font-size: 7rem;
     font-weight: 500;
   }
 
   .date {
+    grid-column: span 2;
     font-size: 4rem;
     font-weight: 600;
   }
 
   .temp {
+    grid-column: span 2;
     font-size: 10rem;
     font-weight: 500;
   }
 
   .feel {
+    grid-column: span 2;
     font-size: 3rem;
     font-weight: 600;
   }
 
-  .general-info {
+  .general-main {
+    grid-row: 5/6;
+    grid-column: span 2;
+  }
+
+  .general {
+    grid-row: 6/7;
     font-size: 5rem;
     font-weight: 500;
+    justify-self: center;
+    grid-column: span 2;
   }
 
   .icon {
     width: 25rem;
+  }
+
+  .uv-main {
+    grid-column: span 2;
+    margin-bottom: 4rem;
   }
 
   .rain {
@@ -462,6 +596,7 @@ button > img {
   .wind {
     font-size: 4rem;
     font-weight: 500;
+    grid-row: 8/9;
   }
 
   .wind-dir {
@@ -489,6 +624,12 @@ button > img {
   .vdrugiden-date {
     font-size: 3.5rem;
     font-weight: 500;
+    align-self: center;
+  }
+
+  .tomorrow-general,
+  .vdrugiden-general {
+    align-self: center;
   }
 
   .tomorrow-icon,
