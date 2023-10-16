@@ -148,9 +148,8 @@ const summarizeWeather = (condition) => {
   let currentWeather;
   for (let property in allConditions) {
     let values = allConditions[property];
-    // console.log(values);
     values.forEach((value) => {
-      if (condition == value) {
+      if (condition === value) {
         currentWeather = property;
       }
     });
