@@ -244,7 +244,6 @@ const getAndDisplayWeather = async () => {
     const current = await getCurrent(location);
     const tomorrow = await getFuture(location, 1);
     const vdrugiden = await getFuture(location, 2);
-    loading.style.display = "none"; // deactivates loading screen
     // displays and populates weather cards
     weatherCard.style.display = "grid";
     tomorrowCard.style.display = "grid";
@@ -252,6 +251,7 @@ const getAndDisplayWeather = async () => {
     populateCurrent(current);
     populateTomorrow(tomorrow);
     populateVdrugiden(vdrugiden);
+    loading.style.display = "none"; // deactivates loading screen
     searchInput.value = ""; // resets input value
     // clears autocomplete menu
     while (autoCompleteMenu.firstChild) {
