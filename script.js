@@ -266,6 +266,7 @@ searchButton.addEventListener("click", async () => {
   // used to show input field after clicking on the search icon on mobile view
   if (!searchInput.classList.contains("visible")) {
     searchInput.classList.add("visible");
+    searchInput.focus();
     return;
   }
   getAndDisplayWeather();
