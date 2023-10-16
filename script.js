@@ -105,55 +105,60 @@ const moonset = document.querySelector(".moonset");
 const moonIcon = document.querySelector(".moon-icon > img");
 const moonPhase = document.querySelector(".moon-phase");
 
-// groups different weather conditions in a few groups so we can use
-// the output to set a background image
+// object containing all weather conditions used to summarize them
+const allConditions = {
+  sunny: ["Sunny"],
+  clear: ["Clear"],
+  cloudy: ["Partly cloudy"],
+  overcast: ["Cloudy", "Overcast"],
+  mist: ["Mist", "Fog", "Freezing fog"],
+  thunder: [
+    "Moderate or heavy snow with thunder",
+    "Patchy light snow with thunder",
+    "Patchy light rain with thunder",
+    "Moderate or heavy rain with thunder",
+    "Thundery outbreaks possible",
+  ],
+  rain: [
+    "Patchy rain possible",
+    "Patchy rain possible",
+    "Patchy freezing drizzle possible",
+    "Patchy light drizzle",
+    "Light drizzle",
+    "Freezing drizzle",
+    "Heavy freezing drizzle",
+    "Patchy light rain",
+    "Light rain",
+    "Moderate rain at times",
+    "Moderate rain",
+    "Heavy rain at times",
+    "Heavy rain",
+    "Light freezing rain",
+    "Moderate or heavy freezing rain",
+    "Light rain shower",
+    "Moderate or heavy rain shower",
+    "Torrential rain shower",
+  ],
+};
+
+// loops through all possible weather conditions in the allConditions object and if it finds a match
+// with the current weather condition it returns the key of that property as a string, we then use that string
+// to display a corresponding background image. We do all this so that we don't have to set a different background image for all 48 possible weather conditions
 const summarizeWeather = (condition) => {
-  if (condition === "Sunny") {
-    return "sunny";
-  } else if (condition === "Clear") {
-    return "clear";
-  } else if (condition === "Partly cloudy") {
-    return "cloudy";
-  } else if (
-    condition === "Mist" ||
-    condition === "Fog" ||
-    condition === "Freezing fog"
-  ) {
-    return "mist";
-  } else if (condition === "Cloudy" || condition === "Overcast") {
-    return "overcast";
-  } else if (
-    condition === "Moderate or heavy snow with thunder" ||
-    condition === "Patchy light snow with thunder" ||
-    condition === "Patchy light rain with thunder" ||
-    condition === "Moderate or heavy rain with thunder" ||
-    condition === "Thundery outbreaks possible"
-  ) {
-    return "thunder";
-  } else if (
-    condition === "Patchy rain possible" ||
-    condition === "Patchy rain possible" ||
-    condition === "Patchy freezing drizzle possible" ||
-    condition === "Patchy light drizzle" ||
-    condition === "Light drizzle" ||
-    condition === "Freezing drizzle" ||
-    condition === "Heavy freezing drizzle" ||
-    condition === "Patchy light rain" ||
-    condition === "Light rain" ||
-    condition === "Moderate rain at times" ||
-    condition === "Moderate rain" ||
-    condition === "Heavy rain at times" ||
-    condition === "Heavy rain" ||
-    condition === "Light freezing rain" ||
-    condition === "Moderate or heavy freezing rain" ||
-    condition === "Light rain shower" ||
-    condition === "Moderate or heavy rain shower" ||
-    condition === "Torrential rain shower"
-  ) {
-    return "rain";
-  } else {
-    return "snow";
+  let currentWeather;
+  for (let property in allConditions) {
+    let values = allConditions[property];
+    // console.log(values);
+    values.forEach((value) => {
+      if (condition == value) {
+        currentWeather = property;
+      }
+    });
   }
+  if (currentWeather === undefined) {
+    return "snow"; // all other weather conditions are covered
+  }
+  return currentWeather;
 };
 
 // function that populates weather info in the DOM elements with the details provided
@@ -350,5 +355,3 @@ searchInput.addEventListener("keyup", (e) => {
 
 // focus the search input on page load
 searchInput.focus();
-
-/// optimize summarizeWeather
