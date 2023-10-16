@@ -1,5 +1,4 @@
 // returns an object containing all the weather info
-
 const getData = async (location) => {
   // parameters needed to create the URL for the API call
   const mainUrl = "http://api.weatherapi.com/v1/forecast.json";
@@ -28,8 +27,7 @@ const getData = async (location) => {
 const getCurrent = async (location) => {
   const mainWeatherObj = await getData(location);
   const currentWeather = mainWeatherObj.current;
-  console.log(mainWeatherObj);
-  // object containining only summarized current weather info
+  // new object containining only summarized info of the current weather
   const currentGeneral = {
     location: mainWeatherObj.location.name,
     region: mainWeatherObj.location.region,
@@ -54,7 +52,8 @@ const getCurrent = async (location) => {
   };
   return currentGeneral;
 };
-// week days array to convert date to weekday
+
+// week days array used to convert the entire date to a weekday
 const weekDays = [
   "Sunday",
   "Monday",
@@ -64,14 +63,15 @@ const weekDays = [
   "Friday",
   "Saturday",
 ];
-// uses getData function to fetch weather info for the next 2 days
+
+// uses the getData function to fetch weather info for the next 2 days
 const getFuture = async (location, day) => {
   const mainWeatherObj = await getData(location);
   const currentDay = mainWeatherObj.forecast.forecastday[day];
   // convert date such as 12-10-2023 to a weekday such as Friday
   const futureDate = new Date(currentDay.date);
   const futureDay = weekDays[futureDate.getDay()];
-  // object containing generalized info for an upcoming day
+  // new object containing generalized info for an upcoming day
   const futureWeather = {
     date: futureDay,
     tempMax: currentDay.day.maxtemp_c,
@@ -85,7 +85,7 @@ const getFuture = async (location, day) => {
   return futureWeather;
 };
 
-// target weather info card DOM elements to use with following function
+// target weather info card DOM elements of today
 const weatherLocation = document.querySelector(".location");
 const weatherDate = document.querySelector(".date");
 const weatherTemp = document.querySelector(".temp");
@@ -105,7 +105,8 @@ const moonset = document.querySelector(".moonset");
 const moonIcon = document.querySelector(".moon-icon > img");
 const moonPhase = document.querySelector(".moon-phase");
 
-// summarize weather
+// groups different weather conditions in a few groups so we can use
+// the output to set a background image
 const summarizeWeather = (condition) => {
   if (condition === "Sunny") {
     return "sunny";
@@ -155,12 +156,11 @@ const summarizeWeather = (condition) => {
   }
 };
 
-// function that populates weather info with the details provided
+// function that populates weather info in the DOM elements with the details provided
 // by the response of the API call after the user runs the search
 const populateCurrent = (weatherObj) => {
-  // weatherLocation.textContent = ${weatherObj.location} (${weatherObj.region}), ${weatherObj.country};
   weatherLocation.textContent = `${weatherObj.location}`;
-  const dateString = new Date().toUTCString();
+  const dateString = new Date().toUTCString(); // used to shorten the current date format
   weatherDate.textContent = Array.from(dateString).splice(0, 11).join("");
   weatherTemp.textContent = `${weatherObj.temp}`;
   weatherGeneral.textContent = weatherObj.general;
@@ -232,34 +232,42 @@ const vdrugidenCard = document.querySelector(".vdrugiden-card");
 // target loading screen
 const loading = document.querySelector(".loading");
 
-// get weather data when search button is clicked, for the location
-// that's in the input
-searchButton.addEventListener("click", async () => {
-  if (!searchInput.classList.contains("visible")) {
-    searchInput.classList.add("visible");
-    return;
-  }
+// takes the user input and uses it to make an API call that gets and display weather info for today and next 2 days
+const getAndDisplayWeather = async () => {
   if (searchInput.value.length >= 3) {
     const location = searchInput.value;
-    loading.style.display = "flex";
+    loading.style.display = "flex"; // activates loading screen
     const current = await getCurrent(location);
     const tomorrow = await getFuture(location, 1);
     const vdrugiden = await getFuture(location, 2);
-    loading.style.display = "none";
+    loading.style.display = "none"; // deactivates loading screen
+    // displays and populates weather cards
     weatherCard.style.display = "grid";
     tomorrowCard.style.display = "grid";
     vdrugidenCard.style.display = "grid";
     populateCurrent(current);
     populateTomorrow(tomorrow);
     populateVdrugiden(vdrugiden);
-    searchInput.value = "";
+    searchInput.value = ""; // resets input value
+    // clears autocomplete menu
     while (autoCompleteMenu.firstChild) {
       autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
     }
     autoCompleteMenu.style.display = "none";
-    if (searchInput.classList.contains("visible")) {
-      searchInput.classList.remove("visible");
-    }
+  }
+};
+
+// get and display weather data when search button is clicked
+searchButton.addEventListener("click", async () => {
+  // used to show input field after clicking on the search icon on mobile view
+  if (!searchInput.classList.contains("visible")) {
+    searchInput.classList.add("visible");
+    return;
+  }
+  getAndDisplayWeather();
+  // hides search input on mobile view
+  if (searchInput.classList.contains("visible")) {
+    searchInput.classList.remove("visible");
   }
 });
 
@@ -267,25 +275,7 @@ searchButton.addEventListener("click", async () => {
 searchInput.addEventListener("keydown", async (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
-    if (searchInput.value.length >= 3) {
-      const location = searchInput.value;
-      loading.style.display = "flex";
-      const current = await getCurrent(location);
-      const tomorrow = await getFuture(location, 1);
-      const vdrugiden = await getFuture(location, 2);
-      loading.style.display = "none";
-      weatherCard.style.display = "grid";
-      tomorrowCard.style.display = "grid";
-      vdrugidenCard.style.display = "grid";
-      populateCurrent(current);
-      populateTomorrow(tomorrow);
-      populateVdrugiden(vdrugiden);
-      searchInput.value = "";
-      while (autoCompleteMenu.firstChild) {
-        autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
-      }
-      autoCompleteMenu.style.display = "none";
-    }
+    getAndDisplayWeather();
   }
 });
 
@@ -297,15 +287,16 @@ const autoCompleteMenu = document.querySelector(".autocomplete");
 const selectSuggestion = () => {
   // target autocomplete suggestions
   const autoSuggestions = document.querySelectorAll(".autocomplete p");
-  // magic
+  // adds click event listener on each suggestion
   autoSuggestions.forEach((suggestion) => {
     suggestion.addEventListener("click", () => {
-      searchInput.value = suggestion.textContent;
+      searchInput.value = suggestion.textContent; // sets input to suggestion
+      // clears suggestion list
       while (autoCompleteMenu.firstChild) {
         autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
       }
       autoCompleteMenu.style.display = "none";
-      searchInput.focus();
+      searchInput.focus(); // focuses on the input
     });
   });
 };
@@ -318,19 +309,20 @@ const autoComplete = async (input) => {
   const response = await fetch(`${mainUrl}${apiQuery}${inputQuery}`, {
     mode: "cors",
   });
-  const data = await response.json();
+  const data = await response.json(); // main object with suggestions
   const suggestions = [];
-  // summarizes json object with suggestions and converts each suggestion
-  // object to a string instead
+  // gets an individual suggestion object from the main array with all suggestions, summarizes and converts
+  // it to a string and then adds it to the array of suggestions with the same index as the one it had in the main array
   data.forEach((suggestion) => {
     suggestions[
       data.indexOf(suggestion)
     ] = `${suggestion.name} (${suggestion.region}), ${suggestion.country}`;
   });
-
+  // clears out the old suggestion dropdown
   while (autoCompleteMenu.firstChild) {
     autoCompleteMenu.removeChild(autoCompleteMenu.firstChild);
   }
+  // prevents dropdown from displaying if there are no suggestions
   if (suggestions.length === 0) {
     autoCompleteMenu.style.display = "none";
   } else if (suggestions.length > 0) {
@@ -340,16 +332,17 @@ const autoComplete = async (input) => {
       autoCompleteMenu.appendChild(document.createElement("p")).textContent =
         suggestion;
     });
-    selectSuggestion();
+    selectSuggestion(); // adds click event listener for suggestions
   }
 };
 
-// implement autocomplete functionality whenever the user inputs something
+// implement autocomplete functionality whenever the user types something
 // in the search input
-searchInput.addEventListener("keydown", (e) => {
+searchInput.addEventListener("keyup", (e) => {
   if (e.key === "Enter") {
     return;
   }
+  // prevents erroneous api calls on short inputs
   if (searchInput.value.length >= 2) {
     autoComplete(searchInput.value);
   }
@@ -358,4 +351,4 @@ searchInput.addEventListener("keydown", (e) => {
 // focus the search input on page load
 searchInput.focus();
 
-/// clean up html, css and js code, document it better
+/// optimize summarizeWeather
