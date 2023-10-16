@@ -358,6 +358,4 @@ searchInput.addEventListener("keydown", (e) => {
 // focus the search input on page load
 searchInput.focus();
 
-/// background image at start
-/// pimp up design and UX on desktop
 /// clean up html, css and js code, document it better

@@ -17,7 +17,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  background-color: #08c758;
   min-height: 100vh;
   justify-content: start;
   background-size: cover;
@@ -43,10 +42,11 @@ form {
 }
 
 button {
-  border-radius: 0.5rem;
+  border-radius: 50%;
   border: none;
   background: none;
   margin-left: 0.5rem;
+  width: 3rem;
 }
 
 button:hover {
@@ -60,7 +60,6 @@ button > img {
 }
 
 input {
-  margin-right: 0.2rem;
   font-size: 1.5rem;
   border-radius: 2rem;
   outline: none;
@@ -97,7 +96,7 @@ form > div {
   padding: 0.5rem;
   display: none;
   width: 100%;
-  font-size: 2rem;
+  font-size: 1.5rem;
   opacity: 0.9;
 }
 
@@ -106,7 +105,7 @@ form > div {
 }
 
 .autocomplete p:hover {
-  background-color: rgb(206, 206, 206);
+  background-color: rgb(238, 238, 238);
   cursor: pointer;
 }
 
@@ -114,48 +113,40 @@ form > div {
   width: 100%;
   display: grid;
   grid-template-columns: 50% 25% 25%;
-  /* grid-template-columns: repeat(auto-fit, minmax(400px, 50%)); */
   justify-content: center;
 }
 
 .weather-card {
-  margin: 0.5rem 2rem;
+  margin: 0.5rem 1rem;
   width: auto;
   background-color: rgba(0, 0, 0, 0.5);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
-  padding-left: 1rem;
   display: none;
   border-radius: 2rem;
-  padding: 1.5rem;
+  padding: 1rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   column-gap: 1rem;
   color: white;
   gap: 1.5rem;
+  text-align: center;
 }
-
-/* .weather-card {
-  grid-row: span 2;
-} */
 
 .tomorrow-card,
 .vdrugiden-card {
-  margin: 0.5rem 2rem;
+  margin: 0.5rem 1rem;
   width: auto;
   height: auto;
   background-color: rgba(0, 0, 0, 0.5);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* grid-template-columns: 2fr 1fr 2fr 2fr 2fr; */
-  align-items: center;
-  padding-left: 1rem;
   display: none;
   border-radius: 2rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  padding: 2rem;
+  padding: 1rem;
   justify-items: center;
   align-items: center;
 }
@@ -167,7 +158,6 @@ form > div {
 }
 
 .date {
-  /* grid-column: span 2; */
   justify-self: center;
   font-size: 2rem;
   font-weight: 500;
@@ -176,7 +166,7 @@ form > div {
 
 .tomorrow-date,
 .vdrugiden-date {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: 500;
   color: white;
   align-self: center;
@@ -186,7 +176,6 @@ form > div {
   grid-column: 3/4;
   font-size: 1.2rem;
   font-weight: 600;
-  /* color: rgb(92, 92, 92); */
 }
 
 .tomorrow-temp-max,
@@ -232,7 +221,6 @@ form > div {
   grid-column: 3/4;
   font-size: 1.5rem;
   font-weight: 500;
-  /* color: rgb(92, 92, 92); */
   justify-self: center;
 }
 
@@ -243,7 +231,6 @@ form > div {
   grid-column: 2 / 4;
   font-size: 1.2rem;
   font-weight: 600;
-  /* color: rgb(92, 92, 92); */
 }
 
 .humidity {
@@ -335,7 +322,6 @@ form > div {
   grid-column: 2 / 4;
   font-size: 1.75rem;
   font-weight: 500;
-  /* color: rgb(92, 92, 92); */
   justify-self: start;
 }
 
@@ -359,7 +345,6 @@ form > div {
   font-size: 2rem;
   font-weight: 500;
   grid-row: 3/4;
-  /* color: rgb(92, 92, 92); */
 }
 
 .sun {
@@ -394,7 +379,6 @@ form > div {
 .tomorrow-wind-speed,
 .vdrugiden-wind-speed {
   display: flex;
-  /* gap: 0.2rem; */
   align-items: center;
   font-size: 2rem;
   font-weight: 500;
@@ -515,9 +499,9 @@ button > img,
   }
 
   input:invalid + span::after {
-    font-size: 3rem;
+    font-size: 2rem;
     color: white;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   button:hover {
@@ -528,7 +512,7 @@ button > img,
     width: 4rem;
     height: 4rem;
     align-self: center;
-    margin-left: 2rem;
+    margin-left: 1rem;
   }
 
   .autocomplete {
@@ -641,6 +625,7 @@ button > img,
   .min-max-temp-section {
     grid-row: 1;
     grid-column: 2/3;
+    margin-left: 1rem;
   }
 
   .tomorrow-temp-min,
@@ -649,5 +634,11 @@ button > img,
   .vdrugiden-temp-max {
     font-size: 3rem;
     font-weight: 500;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1439px) {
+  html {
+    font-size: 12px;
   }
 }
