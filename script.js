@@ -351,6 +351,3 @@ searchInput.addEventListener("keyup", (e) => {
     autoComplete(searchInput.value);
   }
 });
-
-// focus the search input on page load
-searchInput.focus();
