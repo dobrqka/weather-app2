@@ -1,7 +1,7 @@
 // returns an object containing all the weather info
 const getData = async (location) => {
   // parameters needed to create the URL for the API call
-  const mainUrl = "http://api.weatherapi.com/v1/forecast.json";
+  const mainUrl = "https://api.weatherapi.com/v1/forecast.json";
   const API_KEY = "fcfc5bf03eb543b5be0185337231909";
   const apiPart = "?key=" + API_KEY;
   const place = "&q=" + location;
@@ -307,7 +307,7 @@ const selectSuggestion = () => {
 
 /// autocomplete function that shows suggestions based on current input
 const autoComplete = async (input) => {
-  const mainUrl = "http://api.weatherapi.com/v1/search.json";
+  const mainUrl = "https://api.weatherapi.com/v1/search.json";
   const apiQuery = "?key=fcfc5bf03eb543b5be0185337231909";
   const inputQuery = `&q=${input}`;
   const response = await fetch(`${mainUrl}${apiQuery}${inputQuery}`, {
